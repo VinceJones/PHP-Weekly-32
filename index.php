@@ -9,7 +9,7 @@
 
 
 $allPresents = new WrapPresents();
-echo "The elves will need ".number_format($allPresents->getAllDimensions())." SqFt of wrapping paper to wrap all the presents";
+echo "The elves will need ".number_format($allPresents->getAllDimensions())." SqFt of wrapping paper to wrap all the presents" . PHP_EOL;
 
 
 class WrapPresents {
@@ -25,6 +25,9 @@ class WrapPresents {
 		 if ( count($dimensions) < 3) {
 			 return 0;
 		 }
+		 $dimensions = array_map(function ($value) {
+			 return (int)$value;
+		 },$dimensions);
 
 		 $length = $dimensions[0];
 		 $width = $dimensions[1];
@@ -33,7 +36,7 @@ class WrapPresents {
 		 $sqFtOfBox = 2 * $length * $width + 2 * $width * $height + 2 * $height * $length;
 
 		 $minValOne = min($dimensions);
-		 unset($dimensions[$minValOne]);
+		 unset($dimensions[array_search($minValOne, $dimensions)]);
 		 $minValTwo = min($dimensions);
 
 		 $allSqFtNeeded = $minValOne * $minValTwo + $sqFtOfBox;
